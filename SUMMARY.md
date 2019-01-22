@@ -8,4 +8,6 @@
 * [5.函数-参数](5.-han-shu-can-shu.md)
 * [6.解构赋值](6.-jie-gou-fu-zhi.md)
 * [7.数组](7.-shu-zu.md)
+* [8.字符串](8.-zi-fu-chuan.md)
+* [9.面向对象-基础](9.-mian-xiang-dui-xiang-ji-chu.md)
 
