@@ -1,6 +1,7 @@
 # Table of contents
 
 * [引言](README.md)
+* [JavaScript 的基本语法](untitled.md)
 * [01.ES6怎么来的](1.es6-zen-mo-lai-de.md)
 * [02.ES6兼容性](2.es6-jian-rong-xing.md)
 * [03.变量 let 和 常量 const](3.-bian-liang-let-he-chang-liang-const.md)
