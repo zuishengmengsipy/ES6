@@ -296,27 +296,9 @@ console.log(a[1]);  // 输出"ABC"
 | .splice\(\) | 删除元素，并向数组添加新元素。 |
 | .map\(\) | 返回一个数组元素调用函数处理后的值的新数组 |
 
-关于sort\(\)需要注意：
-
-如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，是按照字符编码的顺序进行排序。要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较。
-
-如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。比较函数应该具有两个参数 a 和 b，其返回值如下：
-
-若 a 小于 b，在排序后的数组中 a 应该出现在 b 之前，则返回一个小于 0 的值。  
-若 a 等于 b，则返回 0。  
-若 a 大于 b，则返回一个大于 0 的值。
+**遍历数组**
 
 ```javascript
-function sortNumber(a,b){
-    return a - b
-}
-var arr1 = [11, 100, 22, 55, 33, 44]
-arr1.sort(sortNumber)
-```
-
-关于遍历数组中的元素，可以使用下面的方式：
-
-```text
 var a = [10, 20, 30, 40];
 for (var i=0;i<a.length;i++) {
   console.log(a[i]);
@@ -329,8 +311,8 @@ for (var i=0;i<a.length;i++) {
 
 | 参数 | 描述 |
 | :--- | :--- |
-| _function\(currentValue, index, arr\)_ | 必需。 数组中每个元素需要调用的函数。 函数参数: |
-| _thisValue_ | 可选。传递给函数的值一般用 "this" 值。 如果这个参数为空， "undefined" 会传递给 "this" 值 |
+| function\(currentValue, index, arr\) | 必需。 数组中每个元素需要调用的函数。 函数参数: |
+| thisValue | 可选。传递给函数的值一般用 "this" 值。 如果这个参数为空， "undefined" 会传递给 "this" 值 |
 
 #### splice\(\) <a id="autoid-1-6-6"></a>
 
@@ -338,9 +320,9 @@ for (var i=0;i<a.length;i++) {
 
 | 参数 | 描述 |
 | :--- | :--- |
-| _index_ | 必需。规定从何处添加/删除元素。 该参数是开始插入和（或）删除的数组元素的下标，必须是数字。 |
-| _howmany_ | 必需。规定应该删除多少元素。必须是数字，但可以是 "0"。 如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。 |
-| _item1_, ..., _itemX_ | 可选。要添加到数组的新元素 |
+| index | 必需。规定从何处添加/删除元素。 该参数是开始插入和（或）删除的数组元素的下标，必须是数字。 |
+| howmany | 必需。规定应该删除多少元素。必须是数字，但可以是 "0"。 如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。 |
+| item1, ..., itemX | 可选。要添加到数组的新元素 |
 
 #### map\(\) <a id="autoid-1-6-7"></a>
 
@@ -348,12 +330,8 @@ for (var i=0;i<a.length;i++) {
 
 | 参数 | 描述 |
 | :--- | :--- |
-| _function\(currentValue, index,arr\)_ | 必须。函数，数组中的每个元素都会执行这个函数 函数参数:  |
-| _thisValue_ | 可选。对象作为该执行回调时使用，传递给函数，用作 "this" 的值。 如果省略了 thisValue ，"this" 的值为 "undefined" |
-
-**补充：**
-
-ES6新引入了一种新的原始数据类型（Symbol），表示独一无二的值。它是JavaScript语言的第7种数据类型。
+| function\(currentValue, index,arr\) | 必须。函数，数组中的每个元素都会执行这个函数 函数参数:  |
+| thisValue | 可选。对象作为该执行回调时使用，传递给函数，用作 "this" 的值。 如果省略了 thisValue ，"this" 的值为 "undefined" |
 
 #### 类型查询 <a id="autoid-1-6-8"></a>
 
@@ -364,9 +342,7 @@ typeof true  // "boolean"
 typeof 123 // "number"
 ```
 
-typeof是一个一元运算符（就像++，--，！，- 等一元运算符），不是一个函数，也不是一个语句。
-
-对变量或值调用 typeof 运算符将返回下列值之一：
+typeof是一个一元运算符（就像++，--，！，- 等一元运算符），不是一个函数，也不是一个语句。对变量或值调用 typeof 运算符将返回下列值之一：
 
 * undefined - 如果变量是 Undefined 类型的
 * boolean - 如果变量是 Boolean 类型的
@@ -378,9 +354,9 @@ typeof是一个一元运算符（就像++，--，！，- 等一元运算符）�
 
 #### 函数定义 <a id="autoid-1-9-0"></a>
 
-JavaScript中的函数和Python中的非常类似，只是定义方式有点区别。[![&#x590D;&#x5236;&#x4EE3;&#x7801;](https://common.cnblogs.com/images/copycode.gif)](javascript:void%280%29;)
+JavaScript中的函数和Python中的非常类似，只是定义方式有点区别
 
-```text
+```javascript
 // 普通函数定义
 function f1() {
   console.log("Hello world!");
@@ -408,62 +384,77 @@ sum(1, 2);
 // 立即执行函数
 (function(a, b){
   return a + b;
-})(1, 2);
+})(1, 2)
 ```
-
-[![&#x590D;&#x5236;&#x4EE3;&#x7801;](https://common.cnblogs.com/images/copycode.gif)](javascript:void%280%29;)
-
-_补充：_
-
-ES6中允许使用“箭头”（=&gt;）定义函数。
-
-```text
-var f = v => v;
-// 等同于
-var f = function(v){
-  return v;
-}
-```
-
-如果箭头函数不需要参数或需要多个参数，就是用圆括号代表参数部分：[![&#x590D;&#x5236;&#x4EE3;&#x7801;](https://common.cnblogs.com/images/copycode.gif)](javascript:void%280%29;)
-
-```text
-var f = () => 5;
-// 等同于
-var f = function(){return 5};
-
-var sum = (num1, num2) => num1 + num2;
-// 等同于
-var sum = function(num1, num2){
-  return num1 + num2;
-}
-```
-
-[![&#x590D;&#x5236;&#x4EE3;&#x7801;](https://common.cnblogs.com/images/copycode.gif)](javascript:void%280%29;)
 
 #### 函数中的arguments参数 <a id="autoid-1-9-1"></a>
 
-[![&#x590D;&#x5236;&#x4EE3;&#x7801;](https://common.cnblogs.com/images/copycode.gif)](javascript:void%280%29;)
-
-```text
+```javascript
 function add(a,b){
   console.log(a+b);
   console.log(arguments.length)
 }
 
-add(1,2)
+add(1,2）
 ```
 
-[![&#x590D;&#x5236;&#x4EE3;&#x7801;](https://common.cnblogs.com/images/copycode.gif)](javascript:void%280%29;)
 
-输出：
 
-```text
-3
-2
+## [js高级](https://www.cnblogs.com/wlx97e6/p/9741551.html)
+
+### 数据类型的分类
+
+#### 基本（值）类型（操作值的）
+
+1. String：任意字符串
+2. Number：任意的数字
+3. boolean：true/false
+4. undefined：undefined
+5. null：null（空对象）
+
+#### 对象（引用）类型（操作地址的）
+
+1. Object：任意对象都是Object
+2. Function：特殊的对象，存放代码用于执行的对象
+3. Array：特殊的对象（数值下标，内部数据是有序的）
+
+### 判断对象
+
+1. typeof：返回数据类型的字符串表达形式（undefined--"undefined" String--"string"\[s小写\]）
+   1. 可以判断undefined/ 数值 / 字符串 / 布尔值
+   2. 不能判断null和Object，Object和array
+2. instanceof：判定对象的具体类型
+3. ===：
+   1. 可以判定的只有两种undefined和null
+4. undefined与null的区别
+   1. undefined：代表定义了未赋值
+   2. null：定义并赋值了，只是值是null
+   3. 什么时候给对象赋值为null呢？
+      1. 初始赋值，表明将要赋值为对象
+      2. 结束前，让让对象成为垃圾对象（被垃圾回收器回收）
+5. 函数
+   1. 如何调用（执行）函数（假设函数名为bar）
+      1. bar（）：直接调用
+      2. obj.bar（）：通过对象调用
+      3. new bar（）：new调用
+      4. bar.call/apply（obj）：临时让bar成为obj的方法进行调用
+6. instanceof是如何判断的？
+   1. 表达式：A instanceof B
+   2. 如果B函数的显式原型对象在A对象的原型链上，返回true，否则false
+
+**!=、=，===的用法和区别**
+
+```javascript
+var num = 1;
+var str = '1';
+var test = 1;
+  
+test == num   //true　相同类型　相同值
+test === num  //true　相同类型　相同值
+test !== num  //false test与num类型相同，其值也相同,　非运算肯定是false
+num == str   //true 　把str转换为数字，检查其是否相等。
+num != str   //false  == 的 非运算
+num === str  //false  类型不同，直接返回false
+num !== str  //true   num 与 str类型不同 意味着其两者不等　非运算自然是true啦
 ```
-
-_注意：_
-
-函数只能返回一个值，如果要返回多个值，只能将其放在数组或对象中返回。
 
