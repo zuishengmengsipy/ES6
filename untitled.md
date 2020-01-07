@@ -269,6 +269,10 @@ null表示变量的值是空，undefined则表示只声明了变量，但还没�
 
 JavaScript 中的所有事物都是对象：字符串、数值、数组、函数...此外，js 允许自定义对象JavaScript 提供多个内建对象，比如 String、Date、Array 等等。对象只是带有属性和方法的特殊数据类型。
 
+对象.访问和对象\[ \]访问的区别
+
+![](https://images2018.cnblogs.com/blog/1415722/201808/1415722-20180816102117988-1098925154.png)
+
 ### **数组**
 
 数组对象的作用是：使用单独的变量名来存储一系列的值。类似于Python中的列表。
@@ -398,8 +402,6 @@ function add(a,b){
 add(1,2）
 ```
 
-
-
 ## [js高级](https://www.cnblogs.com/wlx97e6/p/9741551.html)
 
 ### 数据类型的分类
@@ -456,5 +458,190 @@ num == str   //true 　把str转换为数字，检查其是否相等。
 num != str   //false  == 的 非运算
 num === str  //false  类型不同，直接返回false
 num !== str  //true   num 与 str类型不同 意味着其两者不等　非运算自然是true啦
+```
+
+### 原型和原型链
+
+JavaScript 中，万物皆对象！但对象也是有区别的。分为普通对象和函数对象，Object 、Function 是 JS 自带的函数对象。下面举例说明
+
+```javascript
+var o1 = {};
+var o2 = new Object();
+var o3 = new f1();
+ 
+function f1(){};
+var f2 = function(){};
+var f3 = new Function('str','console.log(str)');
+ 
+console.log(typeof Object); //function
+console.log(typeof Function); //function 
+ 
+console.log(typeof f1); //function
+console.log(typeof f2); //function
+console.log(typeof f3); //function  
+ 
+console.log(typeof o1); //object
+console.log(typeof o2); //object
+console.log(typeof o3); //object
+```
+
+在上面的例子中 o1 o2 o3 为普通对象，f1 f2 f3 为函数对象。怎么区分，其实很简单，**凡是通过 new Function\(\) 创建的对象都是函数对象，其他的都是普通对象。f1,f2,归根结底都是通过 new Function\(\)的方式进行创建的。Function Object 也都是通过 New Function\(\)创建的**
+
+**`每个对象都有 __proto__ 属性（），一般只有函数对象才有 prototype 属性`**
+
+**原型链中的属性**
+
+* 原型的属性
+  * 每个函数对象都有一个prototype属性，它默认指向一个Object空对象（原型对象）
+  * 原型对象中有一个属性constructor，它指向函数对象
+* 显式原型和隐式原型
+  * prototype称为显式原型，\_\_proto\_\_称为隐式原型
+  * 对象的隐式原型的值为其构造函数的显式原型的值
+
+先上简单的图助于理解
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004185941939-1447937696.png) ![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004184649858-879236918.png)
+
+* 函数对象的prototype属性：在定义函数的时候自动添加，默认值是一个空object对象
+* 对象的\_\_proto\_\_属性：创建对象的时候自动添加，默认值为构造函数的prototype的属性值
+* 程序员可以直接操作显式原型，不能直接操作隐式原型，ES6后都可以
+
+ 原型链终极版图
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004190503206-376617982.png)
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004190509664-1204219614.png)
+
+所谓原型链，指的就是图中的**proto**这一条指针链！
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004190555068-1312784374.png)
+
+原型链的顶层就是Object.prototype，而这个对象的是没有原型对象的。
+
+可在chrome的控制台里面输入：`Object.__proto__`
+
+输出是:`function Empty(){}`
+
+原型链，如此而已。
+
+#### **js中的继承** <a id="autoid-0-0-0"></a>
+
+```javascript
+<script type="text/javascript">
+    function Person(name, age){
+        this.age=age
+        this.name=name
+    }
+    Person.prototype.setName = function (name) {
+        this.name = name
+    }
+    function Student(name, age, price){
+        Person.call(this, name,age)
+        this.price=price
+    }
+    Student.prototype = new Person() // 把父类绑定到子类中去
+    Student.prototype.constructor = Student // 修正子类constructor属性
+    Student.prototype.setPrice = function (price) {
+        this.price = price
+    }
+ 
+    var s = new Student("tom", 14, 64648)
+    s.setName("alex")
+    s.setPrice(1600)
+    console.log(s.name, s.age, s.price)
+</script>
+```
+
+参考[https://www.cnblogs.com/libin-1/p/5820550.html](https://www.cnblogs.com/libin-1/p/5820550.html)
+
+### 词法分析（尝试理解） <a id="autoid-1-0-0"></a>
+
+JavaScript中在调用函数的那一瞬间，会先进行词法分析。
+
+**词法分析的过程：**
+
+当函数调用的前一瞬间\(**可以理解为是编译时间，不执行**），会先形成一个激活对象：Avtive Object（AO），并会分析以下3个方面：
+
+1:函数参数，如果有，则将此参数赋值给AO，且值为undefined。如果没有，则不做任何操作。  
+2:函数局部变量，如果AO上有同名的值，则不做任何操作。如果没有，则将此变量赋值给AO，并且值为undefined。  
+3:函数声明，如果AO上有，则会将AO上的对象覆盖。如果没有，则不做任何操作。
+
+函数内部无论是使用参数还是使用局部变量都到AO上找。
+
+看两个例子：
+
+```javascript
+var age = 18;
+function foo(){
+  console.log(age);
+  var age = 22;
+  console.log(age);
+}
+foo();  // 问：执行foo()之后的结果是？
+```
+
+第二题：
+
+```javascript
+var age = 18;
+function foo(){
+  console.log(age);
+  var age = 22;  # 到这编译时生成AO.age=undefine;
+  console.log(age);
+  function age(){  # AO.age=function()这里变成方法
+    console.log("呵呵");
+  }
+  console.log(age);
+}
+foo();  // 执行后的结果是？  # 没有参数
+```
+
+**词法分析过程：** 
+
+1. 分析参数，有一个参数，形成一个 `AO.age=undefine;` 
+2. 分析变量声明，有一个 `var age`, 发现 `AO` 上面已经有一个 `AO.age`，因此不做任何处理 
+3. 分析函数声明，有一个 `function age(){...}` 声明， 则把原有的 age 覆盖成 `AO.age=function(){...};`
+
+最终，AO上的属性只有一个age，并且值为一个函数声明 
+
+**执行过程：**
+
+1. 执行第一个 console.log\(age\) 时，此时的 AO.age 是一个函数，所以第一个输出的一个函数 
+2. 这句 var age=22; 是对 AO.age 的属性赋值， 此时AO.age=22 ，所以在第二个输出的是 2 
+3. 同理第三个输出的还是22, 因为中间再没有改变age值的语句了
+
+注意：执行过程中所有的值都是从AO对象上去寻找 
+
+### js语句的位置 <a id="autoid-1-0-0"></a>
+
+jQuery语句必须放在$\(function\(\){}\);里面吗？
+
+不是必须的。
+
+```javascript
+$(function(){//TODO:这里的内容表示js只有在DOM元素全部加载结束后才会执行
+});
+```
+
+js在浏览器渲染页面时是按照在文档中出现的顺序来顺序执行的。因此如果js文件在&lt;header&gt;部分引入，那么文件中的js代码会在[dom](https://www.baidu.com/s?wd=dom&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)元素渲染完毕前就执行。假设js代码中有类似$\('\#elementId'\).click\(function\(\){...}\);这样的语句，那么就会因为[dom](https://www.baidu.com/s?wd=dom&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)没有渲染完，导致根本找不到elementId这个对象，从而导致事件绑定失败。
+
+但是，如果我们把js的内容放到$\(function\(\){...}\);里面，这里面的代码会等到文档内容全部渲染完毕才执行。事件就能够成功绑定了。
+
+所以我们一般在写代码时，通常会注意两点
+
+1. 借用$\(function\(\){}\);包括js内容
+2. 将需要引入的js文件放在dom的底部引入
+
+```javascript
+<html>
+    <head>
+        ....
+    </head>
+    <body>
+        <div>...</div>
+        <div>...</div>
+        <script src="/script/test.js">
+    </body>
+</html>
 ```
 
