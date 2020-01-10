@@ -1,6 +1,8 @@
-# JavaScript 的基本语法
+# 01.JavaScript 的基本语法
 
-## 组成
+## JavaScript语言基础
+
+### 组成
 
 一个完整的 JavaScript 实现是由以下 3 个不同部分组成的：
 
@@ -8,140 +10,63 @@
 * 文档对象模型（DOM） Document object model \(整合js，css，html\)
 * 浏览器对象模型（BOM） Broswer object model（整合js和浏览器）
 
-## 语句 [\#]()  <a id="&#x8BED;&#x53E5;"></a>
+### JavaScript引入方式
 
-JavaScript 程序的执行单位为行（line），也就是一行一行地执行。一般情况下，每一行就是一个语句。
+#### Script标签内写代码
 
-语句（statement）是为了完成某种任务而进行的操作，比如下面就是一行赋值语句。
+```markup
+<script>
+  // 在这里写你的JS代码
+</script>
+```
+
+#### 引入额外的JS文件
+
+```markup
+<script src="myscript.js"></script>
+```
+
+### 注释
 
 ```javascript
-var a = 1 + 3;
+// 这是单行注释
+
+/*
+这是
+多行注释
+*/
 ```
 
-这条语句先用`var`命令，声明了变量`a`，然后将`1 + 3`的运算结果赋值给变量`a`。
+### 结束符
 
-`1 + 3`叫做表达式（expression），指一个为了得到返回值的计算式。语句和表达式的区别在于，前者主要为了进行某种操作，一般情况下不需要返回值；后者则是为了得到返回值，一定会返回一个值。凡是 JavaScript 语言中预期为值的地方，都可以使用表达式。比如，赋值语句的等号右边，预期是一个值，因此可以放置各种表达式。
+JavaScript中的语句要以分号（;）为结束符，以防被压缩成一行被误解
 
-语句以分号结尾，一个分号就表示一个语句结束。多个语句可以写在一行内。
+## 变量  <a id="&#x53D8;&#x91CF;"></a>
 
-```text
-var a = 1 + 3 ; var b = 'abc';
+### 变量规范命名
+
+1. JavaScript的变量名可以使用\_，数字，字母，$组成，不能以数字开头。
+2. 声明变量使用 var 变量名; 的格式来进行声明
+3. JavaScript 的变量名区分大小写，`A`和`a`是两个不同的变量。
+4. 如果只是声明变量而没有赋值，则该变量的值是`undefined`。`undefined`是一个特殊的值，表示“无定义”。
+
+```javascript
+var name = "Alex";
+var age = 18;
 ```
 
-分号前面可以没有任何内容，JavaScript 引擎将其视为空语句。
-
-```text
-;;;
-```
-
-上面的代码就表示3个空语句。
-
-表达式不需要分号结尾。一旦在表达式后面添加分号，则 JavaScript 引擎就将表达式视为语句，这样会产生一些没有任何意义的语句。
-
-```text
-1 + 3;
-'abc';
-```
-
-上面两行语句只是单纯地产生一个值，并没有任何实际的意义。
-
-## 变量 [\#]() <a id="&#x53D8;&#x91CF;"></a>
-
-### 概念 [\#]() <a id="&#x6982;&#x5FF5;"></a>
-
-变量是对“值”的具名引用。变量就是为“值”起名，然后引用这个名字，就等同于引用这个值。变量的名字就是变量名。
-
-```text
-var a = 1;
-```
-
-上面的代码先声明变量`a`，然后在变量`a`与数值1之间建立引用关系，称为将数值1“赋值”给变量`a`。以后，引用变量名`a`就会得到数值1。最前面的`var`，是变量声明命令。它表示通知解释引擎，要创建一个变量`a`。
-
-注意，JavaScript 的变量名区分大小写，`A`和`a`是两个不同的变量。
-
-变量的声明和赋值，是分开的两个步骤，上面的代码将它们合在了一起，实际的步骤是下面这样。
-
-```text
-var a;
-a = 1;
-```
-
-如果只是声明变量而没有赋值，则该变量的值是`undefined`。`undefined`是一个特殊的值，表示“无定义”。
-
-```text
-var a;
-a 
-```
-
-如果变量赋值的时候，忘了写`var`命令，这条语句也是有效的。
-
-```text
-var a = 1;
-
-a = 1;
-```
-
-但是，不写`var`的做法，不利于表达意图，而且容易不知不觉地创建全局变量，所以建议总是使用`var`命令声明变量。
-
-如果一个变量没有声明就直接使用，JavaScript 会报错，告诉你变量未定义。
-
-```text
-x
-
-```
-
-上面代码直接使用变量`x`，系统就报错，告诉你变量`x`没有声明。
-
-可以在同一条`var`命令中声明多个变量。
-
-```text
-var a, b;
-```
-
-JavaScript 是一种动态类型语言，也就是说，变量的类型没有限制，变量可以随时更改类型。
-
-```text
-var a = 1;
-a = 'hello';
-```
-
-上面代码中，变量`a`起先被赋值为一个数值，后来又被重新赋值为一个字符串。第二次赋值的时候，因为变量`a`已经存在，所以不需要使用`var`命令。
-
-如果使用`var`重新声明一个已经存在的变量，是无效的。
-
-```text
-var x = 1;
-var x;
-x 
-```
-
-上面代码中，变量`x`声明了两次，第二次声明是无效的。
-
-但是，如果第二次声明的时候还进行了赋值，则会覆盖掉前面的值。
-
-```text
-var x = 1;
-var x = 2;
-
-
-
-var x = 1;
-var x;
-x = 2;
-```
-
-### 变量提升 [\#]() <a id="&#x53D8;&#x91CF;&#x63D0;&#x5347;"></a>
+### 变量提升  <a id="&#x53D8;&#x91CF;&#x63D0;&#x5347;"></a>
 
 JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）。
 
-```text
+```javascript
 console.log(a);
 var a = 1;
 ```
 
 上面代码首先使用`console.log`方法，在控制台（console）显示变量`a`的值。这时变量`a`还没有声明和赋值，所以这是一种错误的做法，但是实际上不会报错。因为存在变量提升，真正运行的是下面的代码。
 
-```text
+```javascript
 var a;
 console.log(a);
 a = 1;
@@ -149,534 +74,101 @@ a = 1;
 
 最后的结果是显示`undefined`，表示变量`a`已声明，但还未赋值。
 
-## 标识符 [\#]() <a id="&#x6807;&#x8BC6;&#x7B26;"></a>
+## 区块  <a id="&#x533A;&#x5757;"></a>
 
-标识符（identifier）指的是用来识别各种值的合法名称。最常见的标识符就是变量名，以及后面要提到的函数名。JavaScript 语言的标识符对大小写敏感，所以`a`和`A`是两个不同的标识符。
+JavaScript 使用大括号，将多个相关的语句组合在一起，称为“区块”（block），对于`var`命令来说，JavaScript 的区块不构成单独的作用域（scope）。首先在函数内部查找变量，找不到则到外层函数查找，逐步找到最外层。
 
-标识符有一套命名规则，不符合规则的就是非法标识符。JavaScript 引擎遇到非法标识符，就会报错。
-
-简单说，标识符命名规则如下。
-
-* 第一个字符，可以是任意 Unicode 字母（包括英文字母和其他语言的字母），以及美元符号（`$`）和下划线（`_`）。
-* 第二个字符及后面的字符，除了 Unicode 字母、美元符号和下划线，还可以用数字`0-9`。
-
-下面这些都是合法的标识符。
-
-```text
-arg0
-_tmp
-$elem
-π
-```
-
-下面这些则是不合法的标识符。
-
-```text
-1a  
-23  
-***  
-a+b  
--d  
-```
-
-中文是合法的标识符，可以用作变量名。
-
-```text
-var 临时变量 = 1;
-```
-
-> JavaScript 有一些保留字，不能用作标识符：arguments、break、case、catch、class、const、continue、debugger、default、delete、do、else、enum、eval、export、extends、false、finally、for、function、if、implements、import、in、instanceof、interface、let、new、null、package、private、protected、public、return、static、super、switch、this、throw、true、try、typeof、var、void、while、with、yield。
-
-## 注释 [\#]() <a id="&#x6CE8;&#x91CA;"></a>
-
-源码中被 JavaScript 引擎忽略的部分就叫做注释，它的作用是对代码进行解释。JavaScript 提供两种注释的写法：一种是单行注释，用`//`起头；另一种是多行注释，放在`/*`和`*/`之间。
-
-```text
-
-
-
-```
-
-此外，由于历史上 JavaScript 可以兼容 HTML 代码的注释，所以`<!--`和`-->`也被视为合法的单行注释。
-
-```text
-x = 1;  x = 3;
-```
-
-上面代码中，只有`x = 1`会执行，其他的部分都被注释掉了。
-
-需要注意的是，`-->`只有在行首，才会被当成单行注释，否则会当作正常的运算。
-
-```text
-function countdown(n) {
-  while (n --> 0) console.log(n);
-}
-countdown(3)
-
-
-
-```
-
-上面代码中，`n --> 0`实际上会当作`n-- > 0`，因此输出2、1、0。
-
-## 区块 [\#]() <a id="&#x533A;&#x5757;"></a>
-
-JavaScript 使用大括号，将多个相关的语句组合在一起，称为“区块”（block）。
-
-对于`var`命令来说，JavaScript 的区块不构成单独的作用域（scope）。
-
-```text
+```javascript
 {
   var a = 1;
 }
-
-a 
 ```
 
-上面代码在区块内部，使用`var`命令声明并赋值了变量`a`，然后在区块外部，变量`a`依然有效，区块对于`var`命令不构成单独的作用域，与不使用区块的情况没有任何区别。在 JavaScript 语言中，单独使用区块并不常见，区块往往用来构成其他更复杂的语法结构，比如`for`、`if`、`while`、`function`等。
+### **局部变量**
 
-## 条件语句 [\#]() <a id="&#x6761;&#x4EF6;&#x8BED;&#x53E5;"></a>
+在JavaScript函数内部声明的变量（使用 var）是局部变量，所以只能在函数内部访问它（该变量的作用域是函数内部）。只要函数运行完毕，本地变量就会被删除。
 
-JavaScript 提供`if`结构和`switch`结构，完成条件判断，即只有满足预设的条件，才会执行相应的语句。
+### **全局变量**
 
-### if 结构 [\#]() <a id="if-&#x7ED3;&#x6784;"></a>
+在函数外声明的变量是全局变量，网页上的所有脚本和函数都能访问它。
 
-`if`结构先判断一个表达式的布尔值，然后根据布尔值的真伪，执行不同的语句。所谓布尔值，指的是 JavaScript 的两个特殊值，`true`表示真，`false`表示`伪`。
+## 流程控制 <a id="&#x6761;&#x4EF6;&#x8BED;&#x53E5;"></a>
 
-```text
-if (布尔值)
-  语句;
+### if-else
 
-
-if (布尔值) 语句;
-```
-
-上面是`if`结构的基本形式。需要注意的是，“布尔值”往往由一个条件表达式产生的，必须放在圆括号中，表示对表达式求值。如果表达式的求值结果为`true`，就执行紧跟在后面的语句；如果结果为`false`，则跳过紧跟在后面的语句。
-
-```text
-if (m === 3)
-  m = m + 1;
-```
-
-上面代码表示，只有在`m`等于3时，才会将其值加上1。
-
-这种写法要求条件表达式后面只能有一个语句。如果想执行多个语句，必须在`if`的条件判断之后，加上大括号，表示代码块（多个语句合并成一个语句）。
-
-```text
-if (m === 3) {
-  m += 1;
-}
-```
-
-建议总是在`if`语句中使用大括号，因为这样方便插入语句。
-
-注意，`if`后面的表达式之中，不要混淆赋值表达式（`=`）、严格相等运算符（`===`）和相等运算符（`==`）。尤其是赋值表达式不具有比较作用。
-
-```text
-var x = 1;
-var y = 2;
-if (x = y) {
-  console.log(x);
-}
+```javascript
+var a = 10;
+if (a > 5){
+  console.log("yes");
+}else {
+  console.log("no");
 
 ```
 
-上面代码的原意是，当`x`等于`y`的时候，才执行相关语句。但是，不小心将严格相等运算符写成赋值表达式，结果变成了将`y`赋值给变量`x`，再判断变量`x`的值（等于2）的布尔值（结果为`true`）。
+#### if-else if-else <a id="autoid-1-8-1"></a>
 
-这种错误可以正常生成一个布尔值，因而不会报错。为了避免这种情况，有些开发者习惯将常量写在运算符的左边，这样的话，一旦不小心将相等运算符写成赋值运算符，就会报错，因为常量不能被赋值。
-
-```text
-if (x = 2) { 
-if (2 = x) { 
-```
-
-至于为什么优先采用“严格相等运算符”（`===`），而不是“相等运算符”（`==`），请参考《运算符》章节。
-
-### if...else 结构 [\#]() <a id="ifelse-&#x7ED3;&#x6784;"></a>
-
-`if`代码块后面，还可以跟一个`else`代码块，表示不满足条件时，所要执行的代码。
-
-```text
-if (m === 3) {
-  
-} else {
-  
-}
-```
-
-上面代码判断变量`m`是否等于3，如果等于就执行`if`代码块，否则执行`else`代码块。
-
-对同一个变量进行多次判断时，多个`if...else`语句可以连写在一起。
-
-```text
-if (m === 0) {
-  
-} else if (m === 1) {
-  
-} else if (m === 2) {
-  
-} else {
-  
-}
-```
-
-`else`代码块总是与离自己最近的那个`if`语句配对。
-
-```text
-var m = 1;
-var n = 2;
-
-if (m !== 1)
-if (n === 2) console.log('hello');
-else console.log('world');
-```
-
-上面代码不会有任何输出，`else`代码块不会得到执行，因为它跟着的是最近的那个`if`语句，相当于下面这样。
-
-```text
-if (m !== 1) {
-  if (n === 2) {
-    console.log('hello');
-  } else {
-    console.log('world');
-  }
-}
-```
-
-如果想让`else`代码块跟随最上面的那个`if`语句，就要改变大括号的位置。
-
-```text
-if (m !== 1) {
-  if (n === 2) {
-    console.log('hello');
-  }
-} else {
-  console.log('world');
-}
+```javascript
+var a = 10;
+if (a > 5){
+  console.log("a > 5");
+}else if (a < 5) {
+  console.log("a < 5");
+}else {
+  console.log("a = 5");
 
 ```
 
-### switch 结构 [\#]() <a id="switch-&#x7ED3;&#x6784;"></a>
+### switch
 
-多个`if...else`连在一起使用的时候，可以转为使用更方便的`switch`结构。
-
-```text
-switch (fruit) {
-  case "banana":
-    
-    break;
-  case "apple":
-    
-    break;
-  default:
-    
-}
-```
-
-上面代码根据变量`fruit`的值，选择执行相应的`case`。如果所有`case`都不符合，则执行最后的`default`部分。需要注意的是，每个`case`代码块内部的`break`语句不能少，否则会接下去执行下一个`case`代码块，而不是跳出`switch`结构。
-
-```text
-var x = 1;
-
-switch (x) {
+```javascript
+var day = new Date().getDay();
+switch (day) {
+  case 0:
+  console.log("Sunday");
+  break;
   case 1:
-    console.log('x 等于1');
-  case 2:
-    console.log('x 等于2');
-  default:
-    console.log('x 等于其他值');
-}
-
-
-
-```
-
-上面代码中，`case`代码块之中没有`break`语句，导致不会跳出`switch`结构，而会一直执行下去。正确的写法是像下面这样。
-
-```text
-switch (x) {
-  case 1:
-    console.log('x 等于1');
-    break;
-  case 2:
-    console.log('x 等于2');
-    break;
-  default:
-    console.log('x 等于其他值');
+  console.log("Monday");
+  break;
+default:
+  console.log("...")
 }
 ```
 
-`switch`语句部分和`case`语句部分，都可以使用表达式。
+switch中的case子句通常都会加break语句，否则程序会继续执行后续case中的语句。如果所有`case`都不符合，则执行最后的`default`部分
 
-```text
-switch (1 + 3) {
-  case 2 + 2:
-    f();
-    break;
-  default:
-    neverHappens();
+### for
+
+```javascript
+for (var i=0;i<10;i++) {
+  console.log(i);
 }
 ```
 
-上面代码的`default`部分，是永远不会执行到的。
+### while
 
-需要注意的是，`switch`语句后面的表达式，与`case`语句后面的表示式比较运行结果时，采用的是严格相等运算符（`===`），而不是相等运算符（`==`），这意味着比较时不会发生类型转换。
-
-```text
-var x = 1;
-
-switch (x) {
-  case true:
-    console.log('x 发生类型转换');
-    break;
-  default:
-    console.log('x 没有发生类型转换');
-}
-
-```
-
-上面代码中，由于变量`x`没有发生类型转换，所以不会执行`case true`的情况。这表明，`switch`语句内部采用的是“严格相等运算符”，详细解释请参考《运算符》一节。
-
-### 三元运算符 ?: [\#]() <a id="&#x4E09;&#x5143;&#x8FD0;&#x7B97;&#x7B26;-"></a>
-
-JavaScript 还有一个三元运算符（即该运算符需要三个运算子）`?:`，也可以用于逻辑判断。
-
-```text
-(条件) ? 表达式1 : 表达式2
-```
-
-上面代码中，如果“条件”为`true`，则返回“表达式1”的值，否则返回“表达式2”的值。
-
-```text
-var even = (n % 2 === 0) ? true : false;
-```
-
-上面代码中，如果`n`可以被2整除，则`even`等于`true`，否则等于`false`。它等同于下面的形式。
-
-```text
-var even;
-if (n % 2 === 0) {
-  even = true;
-} else {
-  even = false;
+```javascript
+var i = 0;
+while (i < 10) {
+  console.log(i);
+  i++;
 }
 ```
 
-这个三元运算符可以被视为`if...else...`的简写形式，因此可以用于多种场合。
+### 三元运算符
 
-```text
-var myVar;
-console.log(
-  myVar ?
-  'myVar has a value' :
-  'myVar does not have a value'
-)
-
-```
-
-上面代码利用三元运算符，输出相应的提示。
-
-```text
+```javascript
+var a = 1;
+var b = 2;
+var c = a > b ? a : b
 var msg = '数字' + n + '是' + (n % 2 === 0 ? '偶数' : '奇数');
+//字符串添加
 ```
 
-上面代码利用三元运算符，在字符串之中插入不同的值。
+### 标签（label）  <a id="&#x6807;&#x7B7E;&#xFF08;label&#xFF09;"></a>
 
-## 循环语句 [\#]() <a id="&#x5FAA;&#x73AF;&#x8BED;&#x53E5;"></a>
+JavaScript 语言允许，语句的前面有标签（label），相当于定位符，用于跳转到程序的任意位置标签可以是任意的标识符，但不能是保留字，语句部分可以是任意语句。标签通常与`break`语句和`continue`语句配合使用，跳出特定的循环。
 
-循环语句用于重复执行某个操作，它有多种形式。
-
-### while 循环 [\#]() <a id="while-&#x5FAA;&#x73AF;"></a>
-
-`While`语句包括一个循环条件和一段代码块，只要条件为真，就不断循环执行代码块。
-
-```text
-while (条件)
-  语句;
-
-
-while (条件) 语句;
-```
-
-`while`语句的循环条件是一个表达式，必须放在圆括号中。代码块部分，如果只有一条语句，可以省略大括号，否则就必须加上大括号。
-
-```text
-while (条件) {
-  语句;
-}
-```
-
-下面是`while`语句的一个例子。
-
-```text
-var i = 0;
-
-while (i < 100) {
-  console.log('i 当前为：' + i);
-  i = i + 1;
-}
-```
-
-上面的代码将循环100次，直到`i`等于100为止。
-
-下面的例子是一个无限循环，因为循环条件总是为真。
-
-```text
-while (true) {
-  console.log('Hello, world');
-}
-```
-
-### for 循环 [\#]() <a id="for-&#x5FAA;&#x73AF;"></a>
-
-`for`语句是循环命令的另一种形式，可以指定循环的起点、终点和终止条件。它的格式如下。
-
-```text
-for (初始化表达式; 条件; 递增表达式)
-  语句
-
-
-
-for (初始化表达式; 条件; 递增表达式) {
-  语句
-}
-```
-
-`for`语句后面的括号里面，有三个表达式。
-
-* 初始化表达式（initialize）：确定循环变量的初始值，只在循环开始时执行一次。
-* 条件表达式（test）：每轮循环开始时，都要执行这个条件表达式，只有值为真，才继续进行循环。
-* 递增表达式（increment）：每轮循环的最后一个操作，通常用来递增循环变量。
-
-下面是一个例子。
-
-```text
-var x = 3;
-for (var i = 0; i < x; i++) {
-  console.log(i);
-}
-
-
-
-```
-
-上面代码中，初始化表达式是`var i = 0`，即初始化一个变量`i`；测试表达式是`i < x`，即只要`i`小于`x`，就会执行循环；递增表达式是`i++`，即每次循环结束后，`i`增大1。
-
-所有`for`循环，都可以改写成`while`循环。上面的例子改为`while`循环，代码如下。
-
-```text
-var x = 3;
-var i = 0;
-
-while (i < x) {
-  console.log(i);
-  i++;
-}
-```
-
-`for`语句的三个部分（initialize、test、increment），可以省略任何一个，也可以全部省略。
-
-```text
-for ( ; ; ){
-  console.log('Hello World');
-}
-```
-
-上面代码省略了`for`语句表达式的三个部分，结果就导致了一个无限循环。
-
-### do...while 循环 [\#]() <a id="dowhile-&#x5FAA;&#x73AF;"></a>
-
-`do...while`循环与`while`循环类似，唯一的区别就是先运行一次循环体，然后判断循环条件。
-
-```text
-do
-  语句
-while (条件);
-
-
-do {
-  语句
-} while (条件);
-```
-
-不管条件是否为真，`do...while`循环至少运行一次，这是这种结构最大的特点。另外，`while`语句后面的分号注意不要省略。
-
-下面是一个例子。
-
-```text
-var x = 3;
-var i = 0;
-
-do {
-  console.log(i);
-  i++;
-} while(i < x);
-```
-
-### break 语句和 continue 语句 [\#]() <a id="break-&#x8BED;&#x53E5;&#x548C;-continue-&#x8BED;&#x53E5;"></a>
-
-`break`语句和`continue`语句都具有跳转作用，可以让代码不按既有的顺序执行。
-
-`break`语句用于跳出代码块或循环。
-
-```text
-var i = 0;
-
-while(i < 100) {
-  console.log('i 当前为：' + i);
-  i++;
-  if (i === 10) break;
-}
-```
-
-上面代码只会执行10次循环，一旦`i`等于10，就会跳出循环。
-
-`for`循环也可以使用`break`语句跳出循环。
-
-```text
-for (var i = 0; i < 5; i++) {
-  console.log(i);
-  if (i === 3)
-    break;
-}
-
-
-
-
-```
-
-上面代码执行到`i`等于3，就会跳出循环。
-
-`continue`语句用于立即终止本轮循环，返回循环结构的头部，开始下一轮循环。
-
-```text
-var i = 0;
-
-while (i < 100){
-  i++;
-  if (i % 2 === 0) continue;
-  console.log('i 当前为：' + i);
-}
-```
-
-上面代码只有在`i`为奇数时，才会输出`i`的值。如果`i`为偶数，则直接进入下一轮循环。
-
-如果存在多重循环，不带参数的`break`语句和`continue`语句都只针对最内层循环。
-
-### 标签（label） [\#]() <a id="&#x6807;&#x7B7E;&#xFF08;label&#xFF09;"></a>
-
-JavaScript 语言允许，语句的前面有标签（label），相当于定位符，用于跳转到程序的任意位置，标签的格式如下。
-
-```text
-label:
-  语句
-```
-
-标签可以是任意的标识符，但不能是保留字，语句部分可以是任意语句。
-
-标签通常与`break`语句和`continue`语句配合使用，跳出特定的循环。
-
-```text
+```javascript
 top:
   for (var i = 0; i < 3; i++){
     for (var j = 0; j < 3; j++){
@@ -684,30 +176,11 @@ top:
       console.log('i=' + i + ', j=' + j);
     }
   }
-
-
-
-
 ```
 
 上面代码为一个双重循环区块，`break`命令后面加上了`top`标签（注意，`top`不用加引号），满足条件时，直接跳出双层循环。如果`break`语句后面不使用标签，则只能跳出内层循环，进入下一次的外层循环。
 
-标签也可以用于跳出代码块。
-
-```text
-foo: {
-  console.log(1);
-  break foo;
-  console.log('本行不会输出');
-}
-console.log(2);
-
-
-```
-
-上面代码执行到`break foo`，就会跳出区块。
-
-`continue`语句也可以与标签配合使用。
+标签也可以用于跳出代码块
 
 ```text
 top:
@@ -717,18 +190,458 @@ top:
       console.log('i=' + i + ', j=' + j);
     }
   }
-
-
-
-
-
-
-
 ```
 
 上面代码中，`continue`命令后面有一个标签名，满足条件时，会跳过当前循环，直接进入下一轮外层循环。如果`continue`语句后面不使用标签，则只能进入下一轮的内层循环。
 
-## 参考链接 [\#]() <a id="&#x53C2;&#x8003;&#x94FE;&#x63A5;"></a>
+## 数据类型
 
-* Axel Rauschmayer, [A quick overview of JavaScript](http://www.2ality.com/2011/10/javascript-overview.html)
+**JavaScript拥有动态类型**
+
+```javascript
+var x;  // 此时x是undefined
+var x = 1;  // 此时x是数字
+var x = "Alex"  // 此时x是字符串 
+```
+
+### **数值\(Number\)**
+
+JavaScript不区分整型和浮点型，就只有一种数字类型。还有一种NaN，表示不是一个数字（Not a Number）。
+
+```javascript
+var a = 12.34;
+var b = 20;
+var c = 123e5;  // 12300000
+var d = 123e-5;  // 0.00123
+parseInt("123")  // 返回123
+parseInt("ABC")  // 返回NaN,NaN属性是代表非数字值的特殊值。该属性用于指示某个值不是数字。
+parseFloat("123.456")  // 返回123.456
+```
+
+### **字符串\(String\)**
+
+```javascript
+var a = "Hello"
+var b = "world;
+var c = a + b; 
+console.log(c);  // 得到Helloworld
+```
+
+常用方法：
+
+| 方法 | 说明 |
+| :---: | :---: |
+| .length | 返回长度 |
+| .trim\(\) | 移除空白 |
+| .trimLeft\(\) | 移除左边的空白 |
+| .trimRight\(\) | 移除右边的空白 |
+| .charAt\(n\) | 返回第n个字符 |
+| .concat\(value, ...\) | 拼接 |
+| .indexOf\(substring, start\) | 子序列位置 |
+| .substring\(from, to\) | 根据索引获取子序列 |
+| .slice\(start, end\) | 切片 |
+| .toLowerCase\(\) | 小写 |
+| .toUpperCase\(\) | 大写 |
+| .split\(delimiter, limit\) | 分割 |
+
+拼接字符串一般使用“+”
+
+### 布尔值\(Boolean\)
+
+区别于Python，true和false都是小写。
+
+```javascript
+var a = true;
+var b = false;
+//""(空字符串)、0、null、undefined、NaN都是false。
+```
+
+### null和undefined
+
+* null表示值是空，一般在需要指定或清空一个变量时才会使用，如 name=null;
+* undefined表示当声明一个变量但未初始化时，该变量的默认值是undefined。还有就是函数无明确的返回值时，返回的也是undefined。
+
+null表示变量的值是空，undefined则表示只声明了变量，但还没有赋值。还不明白，上图吧！
+
+![](https://images2018.cnblogs.com/blog/867021/201802/867021-20180226115608671-110898150.jpg)![](https://images2018.cnblogs.com/blog/867021/201802/867021-20180226114954211-338562205.jpg)
+
+### 对象\(Object\)
+
+JavaScript 中的所有事物都是对象：字符串、数值、数组、函数...此外，js 允许自定义对象JavaScript 提供多个内建对象，比如 String、Date、Array 等等。对象只是带有属性和方法的特殊数据类型。
+
+对象.访问和对象\[ \]访问的区别
+
+![](https://images2018.cnblogs.com/blog/1415722/201808/1415722-20180816102117988-1098925154.png)
+
+### **数组**
+
+数组对象的作用是：使用单独的变量名来存储一系列的值。类似于Python中的列表。
+
+```javascript
+var a = [123, "ABC"];
+console.log(a[1]);  // 输出"ABC"
+```
+
+ 常用方法：
+
+| 方法 | 说明 |
+| :---: | :---: |
+| .length | 数组的大小 |
+| .push\(ele\) | 尾部追加元素 |
+| .pop\(\) | 获取尾部的元素 |
+| .unshift\(ele\) | 头部插入元素 |
+| .shift\(\) | 头部移除元素 |
+| .slice\(start, end\) | 切片 |
+| .reverse\(\) | 反转 |
+| .join\(seq\) | 将数组元素连接成字符串 |
+| .concat\(val, ...\) | 连接数组 |
+| .sort\(\) | 排序 |
+| .forEach\(\) | 将数组的每个元素传递给回调函数 |
+| .splice\(\) | 删除元素，并向数组添加新元素。 |
+| .map\(\) | 返回一个数组元素调用函数处理后的值的新数组 |
+
+**遍历数组**
+
+```javascript
+var a = [10, 20, 30, 40];
+for (var i=0;i<a.length;i++) {
+  console.log(a[i]);
+}
+```
+
+#### forEach\(\) <a id="autoid-1-6-5"></a>
+
+**语法：**forEach\(function\(currentValue, index, arr\), thisValue\)
+
+| 参数 | 描述 |
+| :--- | :--- |
+| function\(currentValue, index, arr\) | 必需。 数组中每个元素需要调用的函数。 函数参数: |
+| thisValue | 可选。传递给函数的值一般用 "this" 值。 如果这个参数为空， "undefined" 会传递给 "this" 值 |
+
+#### splice\(\) <a id="autoid-1-6-6"></a>
+
+**语法：**splice\(index,howmany,item1,.....,itemX\)
+
+| 参数 | 描述 |
+| :--- | :--- |
+| index | 必需。规定从何处添加/删除元素。 该参数是开始插入和（或）删除的数组元素的下标，必须是数字。 |
+| howmany | 必需。规定应该删除多少元素。必须是数字，但可以是 "0"。 如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。 |
+| item1, ..., itemX | 可选。要添加到数组的新元素 |
+
+#### map\(\) <a id="autoid-1-6-7"></a>
+
+**语法：**map\(function\(currentValue,index,arr\), thisValue\)
+
+| 参数 | 描述 |
+| :--- | :--- |
+| function\(currentValue, index,arr\) | 必须。函数，数组中的每个元素都会执行这个函数 函数参数:  |
+| thisValue | 可选。对象作为该执行回调时使用，传递给函数，用作 "this" 的值。 如果省略了 thisValue ，"this" 的值为 "undefined" |
+
+#### 类型查询 <a id="autoid-1-6-8"></a>
+
+```javascript
+typeof "abc"  // "string"
+typeof null  // "object"
+typeof true  // "boolean"
+typeof 123 // "number"
+```
+
+typeof是一个一元运算符（就像++，--，！，- 等一元运算符），不是一个函数，也不是一个语句。对变量或值调用 typeof 运算符将返回下列值之一：
+
+* undefined - 如果变量是 Undefined 类型的
+* boolean - 如果变量是 Boolean 类型的
+* number - 如果变量是 Number 类型的
+* string - 如果变量是 String 类型的
+* object - 如果变量是一种引用类型或 Null 类型的
+
+### 函数 <a id="autoid-1-8-6"></a>
+
+#### 函数定义 <a id="autoid-1-9-0"></a>
+
+JavaScript中的函数和Python中的非常类似，只是定义方式有点区别
+
+```javascript
+// 普通函数定义
+function f1() {
+  console.log("Hello world!");
+}
+
+// 带参数的函数
+function f2(a, b) {
+  console.log(arguments);  // 内置的arguments对象
+  console.log(arguments.length);
+  console.log(a, b);
+}
+
+// 带返回值的函数
+function sum(a, b){
+  return a + b;
+}
+sum(1, 2);  // 调用函数
+
+// 匿名函数方式
+var sum = function(a, b){
+  return a + b;
+}
+sum(1, 2);
+
+// 立即执行函数
+(function(a, b){
+  return a + b;
+})(1, 2)
+```
+
+#### 函数中的arguments参数 <a id="autoid-1-9-1"></a>
+
+```javascript
+function add(a,b){
+  console.log(a+b);
+  console.log(arguments.length)
+}
+
+add(1,2）
+```
+
+## [js高级](https://www.cnblogs.com/wlx97e6/p/9741551.html)
+
+### 数据类型的分类
+
+#### 基本（值）类型（操作值的）
+
+1. String：任意字符串
+2. Number：任意的数字
+3. boolean：true/false
+4. undefined：undefined
+5. null：null（空对象）
+
+#### 对象（引用）类型（操作地址的）
+
+1. Object：任意对象都是Object
+2. Function：特殊的对象，存放代码用于执行的对象
+3. Array：特殊的对象（数值下标，内部数据是有序的）
+
+### 判断对象
+
+1. typeof：返回数据类型的字符串表达形式（undefined--"undefined" String--"string"\[s小写\]）
+   1. 可以判断undefined/ 数值 / 字符串 / 布尔值
+   2. 不能判断null和Object，Object和array
+2. instanceof：判定对象的具体类型
+3. ===：
+   1. 可以判定的只有两种undefined和null
+4. undefined与null的区别
+   1. undefined：代表定义了未赋值
+   2. null：定义并赋值了，只是值是null
+   3. 什么时候给对象赋值为null呢？
+      1. 初始赋值，表明将要赋值为对象
+      2. 结束前，让让对象成为垃圾对象（被垃圾回收器回收）
+5. 函数
+   1. 如何调用（执行）函数（假设函数名为bar）
+      1. bar（）：直接调用
+      2. obj.bar（）：通过对象调用
+      3. new bar（）：new调用
+      4. bar.call/apply（obj）：临时让bar成为obj的方法进行调用
+6. instanceof是如何判断的？
+   1. 表达式：A instanceof B
+   2. 如果B函数的显式原型对象在A对象的原型链上，返回true，否则false
+
+**!=、=，===的用法和区别**
+
+```javascript
+var num = 1;
+var str = '1';
+var test = 1;
+  
+test == num   //true　相同类型　相同值
+test === num  //true　相同类型　相同值
+test !== num  //false test与num类型相同，其值也相同,　非运算肯定是false
+num == str   //true 　把str转换为数字，检查其是否相等。
+num != str   //false  == 的 非运算
+num === str  //false  类型不同，直接返回false
+num !== str  //true   num 与 str类型不同 意味着其两者不等　非运算自然是true啦
+```
+
+### 原型和原型链
+
+JavaScript 中，万物皆对象！但对象也是有区别的。分为普通对象和函数对象，Object 、Function 是 JS 自带的函数对象。下面举例说明
+
+```javascript
+var o1 = {};
+var o2 = new Object();
+var o3 = new f1();
+ 
+function f1(){};
+var f2 = function(){};
+var f3 = new Function('str','console.log(str)');
+ 
+console.log(typeof Object); //function
+console.log(typeof Function); //function 
+ 
+console.log(typeof f1); //function
+console.log(typeof f2); //function
+console.log(typeof f3); //function  
+ 
+console.log(typeof o1); //object
+console.log(typeof o2); //object
+console.log(typeof o3); //object
+```
+
+在上面的例子中 o1 o2 o3 为普通对象，f1 f2 f3 为函数对象。怎么区分，其实很简单，**凡是通过 new Function\(\) 创建的对象都是函数对象，其他的都是普通对象。f1,f2,归根结底都是通过 new Function\(\)的方式进行创建的。Function Object 也都是通过 New Function\(\)创建的**
+
+**`每个对象都有 __proto__ 属性（），一般只有函数对象才有 prototype 属性`**
+
+**原型链中的属性**
+
+* 原型的属性
+  * 每个函数对象都有一个prototype属性，它默认指向一个Object空对象（原型对象）
+  * 原型对象中有一个属性constructor，它指向函数对象
+* 显式原型和隐式原型
+  * prototype称为显式原型，\_\_proto\_\_称为隐式原型
+  * 对象的隐式原型的值为其构造函数的显式原型的值
+
+先上简单的图助于理解
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004185941939-1447937696.png) ![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004184649858-879236918.png)
+
+* 函数对象的prototype属性：在定义函数的时候自动添加，默认值是一个空object对象
+* 对象的\_\_proto\_\_属性：创建对象的时候自动添加，默认值为构造函数的prototype的属性值
+* 程序员可以直接操作显式原型，不能直接操作隐式原型，ES6后都可以
+
+ 原型链终极版图
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004190503206-376617982.png)
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004190509664-1204219614.png)
+
+所谓原型链，指的就是图中的**proto**这一条指针链！
+
+![](https://img2018.cnblogs.com/blog/1415722/201810/1415722-20181004190555068-1312784374.png)
+
+原型链的顶层就是Object.prototype，而这个对象的是没有原型对象的。
+
+可在chrome的控制台里面输入：`Object.__proto__`
+
+输出是:`function Empty(){}`
+
+原型链，如此而已。
+
+#### **js中的继承** <a id="autoid-0-0-0"></a>
+
+```javascript
+<script type="text/javascript">
+    function Person(name, age){
+        this.age=age
+        this.name=name
+    }
+    Person.prototype.setName = function (name) {
+        this.name = name
+    }
+    function Student(name, age, price){
+        Person.call(this, name,age)
+        this.price=price
+    }
+    Student.prototype = new Person() // 把父类绑定到子类中去
+    Student.prototype.constructor = Student // 修正子类constructor属性
+    Student.prototype.setPrice = function (price) {
+        this.price = price
+    }
+ 
+    var s = new Student("tom", 14, 64648)
+    s.setName("alex")
+    s.setPrice(1600)
+    console.log(s.name, s.age, s.price)
+</script>
+```
+
+参考[https://www.cnblogs.com/libin-1/p/5820550.html](https://www.cnblogs.com/libin-1/p/5820550.html)
+
+### 词法分析（尝试理解） <a id="autoid-1-0-0"></a>
+
+JavaScript中在调用函数的那一瞬间，会先进行词法分析。
+
+**词法分析的过程：**
+
+当函数调用的前一瞬间\(**可以理解为是编译时间，不执行**），会先形成一个激活对象：Avtive Object（AO），并会分析以下3个方面：
+
+1:函数参数，如果有，则将此参数赋值给AO，且值为undefined。如果没有，则不做任何操作。  
+2:函数局部变量，如果AO上有同名的值，则不做任何操作。如果没有，则将此变量赋值给AO，并且值为undefined。  
+3:函数声明，如果AO上有，则会将AO上的对象覆盖。如果没有，则不做任何操作。
+
+函数内部无论是使用参数还是使用局部变量都到AO上找。
+
+看两个例子：
+
+```javascript
+var age = 18;
+function foo(){
+  console.log(age);
+  var age = 22;
+  console.log(age);
+}
+foo();  // 问：执行foo()之后的结果是？
+```
+
+第二题：
+
+```javascript
+var age = 18;
+function foo(){
+  console.log(age);
+  var age = 22;  # 到这编译时生成AO.age=undefine;
+  console.log(age);
+  function age(){  # AO.age=function()这里变成方法
+    console.log("呵呵");
+  }
+  console.log(age);
+}
+foo();  // 执行后的结果是？  # 没有参数
+```
+
+**词法分析过程：** 
+
+1. 分析参数，有一个参数，形成一个 `AO.age=undefine;` 
+2. 分析变量声明，有一个 `var age`, 发现 `AO` 上面已经有一个 `AO.age`，因此不做任何处理 
+3. 分析函数声明，有一个 `function age(){...}` 声明， 则把原有的 age 覆盖成 `AO.age=function(){...};`
+
+最终，AO上的属性只有一个age，并且值为一个函数声明 
+
+**执行过程：**
+
+1. 执行第一个 console.log\(age\) 时，此时的 AO.age 是一个函数，所以第一个输出的一个函数 
+2. 这句 var age=22; 是对 AO.age 的属性赋值， 此时AO.age=22 ，所以在第二个输出的是 2 
+3. 同理第三个输出的还是22, 因为中间再没有改变age值的语句了
+
+注意：执行过程中所有的值都是从AO对象上去寻找 
+
+### js语句的位置 <a id="autoid-1-0-0"></a>
+
+jQuery语句必须放在$\(function\(\){}\);里面吗？
+
+不是必须的。
+
+```javascript
+$(function(){//TODO:这里的内容表示js只有在DOM元素全部加载结束后才会执行
+});
+```
+
+js在浏览器渲染页面时是按照在文档中出现的顺序来顺序执行的。因此如果js文件在&lt;header&gt;部分引入，那么文件中的js代码会在[dom](https://www.baidu.com/s?wd=dom&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)元素渲染完毕前就执行。假设js代码中有类似$\('\#elementId'\).click\(function\(\){...}\);这样的语句，那么就会因为[dom](https://www.baidu.com/s?wd=dom&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)没有渲染完，导致根本找不到elementId这个对象，从而导致事件绑定失败。
+
+但是，如果我们把js的内容放到$\(function\(\){...}\);里面，这里面的代码会等到文档内容全部渲染完毕才执行。事件就能够成功绑定了。
+
+所以我们一般在写代码时，通常会注意两点
+
+1. 借用$\(function\(\){}\);包括js内容
+2. 将需要引入的js文件放在dom的底部引入
+
+```javascript
+<html>
+    <head>
+        ....
+    </head>
+    <body>
+        <div>...</div>
+        <div>...</div>
+        <script src="/script/test.js">
+    </body>
+</html>
+```
 
