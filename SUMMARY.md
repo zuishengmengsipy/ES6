@@ -2,7 +2,7 @@
 
 * [引言](README.md)
 * [01.JavaScript 的基本语法](01.javascript-de-ji-ben-yu-fa.md)
-* [02.ES6怎么来的](1.es6-zen-mo-lai-de.md)
+* [02.ES6基础](02.es6-ji-chu.md)
 * [03.变量 let 和 常量 const](3.-bian-liang-let-he-chang-liang-const.md)
 * [04.函数-箭头函数](4.-han-shu-jian-tou-han-shu.md)
 * [05.函数-参数](5.-han-shu-can-shu.md)
