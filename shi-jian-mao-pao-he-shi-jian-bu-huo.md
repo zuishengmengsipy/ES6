@@ -6,7 +6,7 @@
 
 在 捕获 中，外部元素的事件会先被触发，然后才会触发内部元素的事件 
 
-![](.gitbook/assets/image%20%284%29.png)
+![](.gitbook/assets/image%20%285%29.png)
 
 **事件冒泡**
 
